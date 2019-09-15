@@ -94,7 +94,7 @@ var onSuccess = function(args){
 				remote.centerButton.click();
 				break;
 			case Back:
-
+				remote.returnButton.click();
 				break;
 			case VolumeUp:
 				remote.volumeUpButton.click();
@@ -106,14 +106,13 @@ var onSuccess = function(args){
 				remote.volumeMuteButton.click();
 				break;
 			case ChannelUp:
-				alert("Hello! I am an alert box!");
 				remote.nextChannelButton.click();
 				break;
 			case ChannelDown:
 				remote.previousChannelButton.click();
 				break;
 			case ChannelList:
-				
+				remote.epgButton.click();
 				break;
 			case ColorF0Red:
 				remote.programmableRedButton.click();
@@ -158,7 +157,7 @@ var onSuccess = function(args){
 				remote.number9Button.click();
 				break;
 			case Info:
-				remote.tvChannelDescriptionButton.click();
+				remote.channelDescriptionButton.click();
 				break;
 			case Caption:
 				remote.nextSubtitleButton.click();
@@ -176,13 +175,13 @@ var onSuccess = function(args){
 				remote.menuButton.click();
 				break;
 			default:
-				hknbpCore.PromptBox.promptMessage("本程式並無此功能提供");
+				hknbpCore.PromptBox.promptMessage("本程式並無此功能提供"+e.keyCode);
 				break;
 			}
 	    });
 		
-		//虛擬搖控制修定
 		/**
+		//虛擬搖控制修定
 		remote.volumeUp = function(){
 			//tizen.tvaudiocontrol.setVolumeUp();
 		};
