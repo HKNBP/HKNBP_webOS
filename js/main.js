@@ -180,21 +180,55 @@ var onSuccess = function(args){
 			}
 	    });
 		
-		/**
 		//虛擬搖控制修定
-		remote.volumeUp = function(){
-			//tizen.tvaudiocontrol.setVolumeUp();
+		remote.volumeUpButton.onclick = function(){
+			var request = webOS.service.request("luna://com.webos.audio", {
+			    method: "volumeUp",
+			    onComplete: function (inResponse) {
+			        console.log("The volume is increased by 1.");
+			        // To-Do something            
+			    },
+			    onFailure: function (inError) {
+			        console.log("Failed to increase volume by 1.");
+			        console.log("[" + inError.errorCode + "]: " + inError.errorText);
+			        // To-Do something
+			        return;
+			    }
+			});
 		};
-		remote.volumeDown = function(){
-			//tizen.tvaudiocontrol.setVolumeDown();
+		remote.volumeDownButton.onclick = function(){
+			var request = webOS.service.request("luna://com.webos.audio", {
+			    method: "volumeDown",
+			    onSuccess: function (inResponse) {
+			        console.log("The volume is decreased by 1.");
+			        // To-Do something
+			    },
+			    onFailure: function (inError) {
+			        console.log("Failed to decrease volume by 1.");
+			        console.log("[" + inError.errorCode + "]: " + inError.errorText);
+			        // To-Do something
+			        return;
+			    }
+			});
 		};
-		remote.volumeMute = function(){
-			if(tizen.tvaudiocontrol.isMute()){
-				tizen.tvaudiocontrol.setMute(false);
-			}else{
-				tizen.tvaudiocontrol.setMute(true);
-			}
-		};*/
+		var isMuted = false;
+		remote.volumeMuteButton.onclick = function(){
+			var request = webOS.service.request("luna://com.webos.audio", {
+			    method: "setMuted",
+			    parameters: { "muted": !isMuted },
+			    onSuccess: function (inResponse) {
+			        console.log("TV is muted");
+			        // To-Do something
+			    },
+			    onFailure: function (inError) {
+			        console.log("Failed to set muted");
+			        console.log("[" + inError.errorCode + "]: " + inError.errorText);
+			        // To-Do something
+			        return;
+			    }
+			});
+			isMuted = !isMuted;
+		};
 	});
 };
 
