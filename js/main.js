@@ -28,7 +28,7 @@ var onSuccess = function(args){
 		var ArrowRight 			= 39;
 		var ArrowDown 			= 40;
 		var Enter 				= 13;
-		var Back 				= 10009;//未證實
+		var Back 				= 461;//未證實
 		var VolumeUp 			= 447;//未證實
 		var VolumeDown 			= 448;//未證實
 		var VolumeMute 			= 449;//未證實
@@ -75,8 +75,9 @@ var onSuccess = function(args){
 		var Soccer 				= 10228;//未證實
 		var Teletext 			= 10200;//未證實
 		var Search 				= 10225;//未證實
+		
 		var remote = hknbpCore.VirtualRemote;
-		document.getElementById("HKNBP_Core").contentWindow.addEventListener('keydown', function(e) {
+		var keydown = function(e) {
 	        switch (e.keyCode) {
 			case ArrowLeft:
 				remote.leftButton.click();
@@ -91,11 +92,11 @@ var onSuccess = function(args){
 				remote.downButton.click();
 				break;
 			case Enter:
-				remote.centerButton.click();
+				//remote.centerButton.click();
 				break;
-			case Back:
+			/**case Back:
 				remote.returnButton.click();
-				break;
+				break;*/
 			case VolumeUp:
 				remote.volumeUpButton.click();
 				break;
@@ -174,11 +175,24 @@ var onSuccess = function(args){
 			case Menu:
 				remote.menuButton.click();
 				break;
+			case 1536:
+				
+				break;
+			case 1537:
+				
+				break;
 			default:
 				hknbpCore.PromptBox.promptMessage("本程式並無此功能提供"+e.keyCode);
 				break;
 			}
-	    });
+	    }
+		hknbpCoreIframe.contentWindow.addEventListener('keydown', keydown);
+
+		//Back鍵嘅程序
+	    window.addEventListener("popstate", function (event) {
+	        //Back鍵嘅程序由度鼠開始
+	        remote.returnButton.click();
+	    }, false);
 		
 		//虛擬搖控制修定
 		remote.volumeUpButton.onclick = function(){

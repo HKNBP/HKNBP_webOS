@@ -4,7 +4,7 @@
     "icon": "icon.png",
     "main": "index.html",
     "id": "org.sourcekey.hknbp",
-    "title": "HKNBP_webOS",
+    "title": "HKNBP",
     "type": "web",
     "version": "0.9.0"
 }
