@@ -17,9 +17,10 @@
 <html>
 <head>
 	<title>香港網路廣播平臺</title>
-    <script src="js/webOSTVjs-1.1.0/webOSTV.js" charset="utf-8"></script>
-	<script src="js/webOSTVjs-1.1.0/webOSTV-dev.js" charset="utf-8"></script>
-	<script>
+	<!--<script type="text/javascript">window.location.href="http://saabi.github.io/vminpoly/demo2.html";</script>-->
+    <script type="text/javascript" src="js/webOSTVjs-1.1.1/webOSTV.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/webOSTVjs-1.1.1/webOSTV-dev.js" charset="utf-8"></script>
+	<script type="text/javascript">
 		//第一時間push一個State防止APP未完全初始化時被按BACK制退至WebOSAppsMenu
 		//由於退至WebOSAppsMenu會影響APP嘅初始化使出現Bug(例如:用唔到Remote操控個APP問題)
 		window.history.pushState("", "", "");
@@ -32,11 +33,15 @@
 			try{
 				var hknbpCore = document.getElementById("HKNBP_Core").contentWindow.HKNBP_Core.org.sourcekey.hknbp.hknbp_core
 				if(hknbpCore == null){location.reload();}
-			}catch(e){location.reload();}
-	    }, 2000);
+			}catch(e){
+				location.reload();
+				//document.getElementById("HKNBP_Core").src = "HKNBP_Core/index.html";
+				//location.href="http://www.hknbp.org/";
+			}
+	    }, 10000);
 	</script>
-	<script>
-		var hknbpWebOsAppVersion = "1.1-webOS";
+	<script type="text/javascript">
+		var hknbpWebOsAppVersion = "v1.5-webOS";
 	
 		var onSuccess = function(args){
 			var hknbpCoreIframe = document.getElementById("HKNBP_Core");
@@ -46,7 +51,7 @@
 			    //設置程式版編號
 			    hknbpCore.appVersion = hknbpWebOsAppVersion;
 	
-			    //實體搖控
+			    //實體搖控KeyCode
 			    var ArrowLeft 			= 37;
 				var ArrowUp 			= 38;
 				var ArrowRight 			= 39;
@@ -100,27 +105,33 @@
 				var Teletext 			= 10200;//未證實
 				var Search 				= 10225;//未證實
 				
+				//設定實體搖控
 				var remote = hknbpCore.VirtualRemote;
 				var keydown = function(e) {
 			        switch (e.keyCode) {
 					case ArrowLeft:
 						remote.leftButton.click();
+						e.preventDefault();
 						break;
 					case ArrowUp:
 						remote.upButton.click();
+						e.preventDefault();
 						break;
 					case ArrowRight:
 						remote.rightButton.click();
+						e.preventDefault();
 						break;
 					case ArrowDown:
 						remote.downButton.click();
+						e.preventDefault();
 						break;
 					case Enter:
-						//remote.centerButton.click();
+						remote.centerButton.click();
+						e.preventDefault();
 						break;
-					/**case Back:
-						remote.returnButton.click();
-						break;*/
+					case Back:
+						//remote.returnButton.click();
+						break;
 					case VolumeUp:
 						remote.volumeUpButton.click();
 						break;
@@ -211,7 +222,7 @@
 					}
 			    }
 				hknbpCoreIframe.contentWindow.addEventListener('keydown', keydown);
-	
+				
 				//Back鍵嘅程序
 			    window.addEventListener("popstate", function (event) {
 			        //Back鍵嘅程序由度鼠開始
@@ -219,7 +230,7 @@
 			    }, false);
 				
 				//虛擬搖控制修定
-				remote.volumeUpButton.onclick = function(){
+				hknbpCore.Player.volumeUp = function(){
 					var request = webOS.service.request("luna://com.webos.audio", {
 					    method: "volumeUp",
 					    onComplete: function (inResponse) {
@@ -234,7 +245,7 @@
 					    }
 					});
 				};
-				remote.volumeDownButton.onclick = function(){
+				hknbpCore.Player.volumeDown = function(){
 					var request = webOS.service.request("luna://com.webos.audio", {
 					    method: "volumeDown",
 					    onSuccess: function (inResponse) {
@@ -250,7 +261,7 @@
 					});
 				};
 				var isMuted = false;
-				remote.volumeMuteButton.onclick = function(){
+				hknbpCore.Player.volumeMute = function(){
 					var request = webOS.service.request("luna://com.webos.audio", {
 					    method: "setMuted",
 					    parameters: { "muted": !isMuted },
@@ -286,7 +297,7 @@
 <body>
 	<iframe 
 		id="HKNBP_Core" 
-		src="https://hknbp.org/"  
+		src="https://hknbp.org/"
 		style="width:100%; height:100%; position:absolute; top:0; left:0;" 
 		frameBorder="0" 
 		allow="autoplay; fullscreen;">
