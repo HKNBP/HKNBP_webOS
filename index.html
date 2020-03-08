@@ -31,17 +31,17 @@
 		//防止HKNBP_Core Load唔到時, 自動重新Load過個APP
 		window.setInterval(function (){
 			try{
-				var hknbpCore = document.getElementById("HKNBP_Core").contentWindow.HKNBP_Core.org.sourcekey.hknbp.hknbp_core
-				if(hknbpCore == null){location.reload();}
+				var hknbpCore = document.getElementById("HKNBP_Core").contentWindow.HKNBP_Core.org.sourcekey.hknbp.hknbp_core;
+				if(hknbpCore == null){document.getElementById("HKNBP_Core").src="https://hknbp.org";}
 			}catch(e){
-				location.reload();
-				//document.getElementById("HKNBP_Core").src = "HKNBP_Core/index.html";
+				//location.reload();
+				document.getElementById("HKNBP_Core").src = "HKNBP_Core/index.html";
 				//location.href="http://www.hknbp.org/";
 			}
 	    }, 10000);
 	</script>
 	<script type="text/javascript">
-		var hknbpWebOsAppVersion = "v1.5-webOS";
+		var hknbpWebOsAppVersion = "v1.6-webOS";
 	
 		var onSuccess = function(args){
 			var hknbpCoreIframe = document.getElementById("HKNBP_Core");
