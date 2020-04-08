@@ -17,16 +17,15 @@
 <html>
 <head>
 	<title>香港網路廣播平臺</title>
-	<!--<script type="text/javascript">window.location.href="http://saabi.github.io/vminpoly/demo2.html";</script>-->
     <script type="text/javascript" src="js/webOSTVjs-1.1.1/webOSTV.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/webOSTVjs-1.1.1/webOSTV-dev.js" charset="utf-8"></script>
 	<script type="text/javascript">
 		//第一時間push一個State防止APP未完全初始化時被按BACK制退至WebOSAppsMenu
 		//由於退至WebOSAppsMenu會影響APP嘅初始化使出現Bug(例如:用唔到Remote操控個APP問題)
-		window.history.pushState("", "", "");
+		//window.history.pushState("", "", "");
 		
 		//防止個App退至WebOSAppsMenu
-		window.addEventListener("popstate", function(event){window.history.pushState("", "", "");}, false);
+		//window.addEventListener("popstate", function(event){window.history.pushState("", "", "");}, false);
 		
 		//防止HKNBP_Core Load唔到時, 自動重新Load過個APP
 		window.setInterval(function (){
@@ -36,12 +35,13 @@
 			}catch(e){
 				//location.reload();
 				document.getElementById("HKNBP_Core").src = "HKNBP_Core/index.html";
-				//location.href="http://www.hknbp.org/";
+				//location.href="http://hknbp.org/";
 			}
 	    }, 10000);
+		//location.href="http://www2.videojs.com/";
 	</script>
 	<script type="text/javascript">
-		var hknbpWebOsAppVersion = "v1.6-webOS";
+		var hknbpWebOsAppVersion = "v1.7-webOS";
 	
 		var onSuccess = function(args){
 			var hknbpCoreIframe = document.getElementById("HKNBP_Core");
@@ -297,7 +297,7 @@
 <body>
 	<iframe 
 		id="HKNBP_Core" 
-		src="https://hknbp.org/"
+		src="https://hknbp.org"
 		style="width:100%; height:100%; position:absolute; top:0; left:0;" 
 		frameBorder="0" 
 		allow="autoplay; fullscreen;">
