@@ -13,10 +13,10 @@
  */
 
 function getFile(filePath){
-	var xmlhttp = new XMLHttpRequest()
-	xmlhttp.open("GET", filePath, false)
-	xmlhttp.send()
-	return xmlhttp
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", filePath, false);
+	xmlhttp.send();
+	return xmlhttp;
 }
 
 var hknbpWebOsAppVersion = "v"+JSON.parse(getFile("appinfo.json").responseText).version+"-webOS";
@@ -24,13 +24,13 @@ var hknbpWebOsAppVersion = "v"+JSON.parse(getFile("appinfo.json").responseText).
 var onSuccess = function(args){
 	var hknbpCoreIframe = document.getElementById("HKNBP_Core");
 	hknbpCoreIframe.addEventListener("load", function () {
-	    var hknbpCore = hknbpCoreIframe.contentWindow.HKNBP_Core.org.sourcekey.hknbp.hknbp_core;
+		var hknbpCoreIndex = hknbpCoreIframe.contentWindow;
 
 	    //設置程式版編號
-	    hknbpCore.appVersion = hknbpWebOsAppVersion;
+		hknbpCoreIndex.hknbpAppVersion(hknbpWebOsAppVersion);
 		
 		//設定實體搖控
-		var remote = hknbpCore.VirtualRemote;
+		var remote = hknbpCoreIndex.hknbpRemote;
 		var keydown = function(e) {
 	        switch (e.keyCode) {
 			case ArrowLeft:
@@ -51,6 +51,7 @@ var onSuccess = function(args){
 				break;
 			case Enter:
 				remote.centerButton.click();
+				e.preventDefault();
 				break;
 			case Back:
 				//remote.returnButton.click();
@@ -140,11 +141,11 @@ var onSuccess = function(args){
 				
 				break;
 			default:
-				hknbpCore.PromptBox.promptMessage("本程式並無此功能提供"+e.keyCode);
+				hknbpCoreIndex.hknbpPrompt("本程式並無此功能提供"+e.keyCode);
 				break;
 			}
 	    }
-		hknbpCoreIframe.contentWindow.addEventListener('keydown', keydown);
+		hknbpCoreIndex.addEventListener('keydown', keydown);
 		
 		//Back鍵嘅程序
 	    window.addEventListener("popstate", function (event) {
@@ -153,7 +154,7 @@ var onSuccess = function(args){
 	    }, false);
 		
 		//虛擬搖控制修定
-		hknbpCore.Player.volumeUp = function(){
+	    hknbpCoreIndex.hknbpVolumeUp(function(){
 			var request = webOS.service.request("luna://com.webos.audio", {
 			    method: "volumeUp",
 			    onComplete: function (inResponse) {
@@ -167,8 +168,8 @@ var onSuccess = function(args){
 			        return;
 			    }
 			});
-		};
-		hknbpCore.Player.volumeDown = function(){
+		});
+		hknbpCoreIndex.hknbpVolumeDown(function(){
 			var request = webOS.service.request("luna://com.webos.audio", {
 			    method: "volumeDown",
 			    onSuccess: function (inResponse) {
@@ -182,9 +183,9 @@ var onSuccess = function(args){
 			        return;
 			    }
 			});
-		};
+		});
 		var isMuted = false;
-		hknbpCore.Player.volumeMute = function(){
+		hknbpCoreIndex.hknbpVolumeMute(function(){
 			var request = webOS.service.request("luna://com.webos.audio", {
 			    method: "setMuted",
 			    parameters: { "muted": !isMuted },
@@ -200,7 +201,7 @@ var onSuccess = function(args){
 			    }
 			});
 			isMuted = !isMuted;
-		};
+		});
 	});
 };
 

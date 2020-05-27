@@ -30,11 +30,11 @@
 		//防止HKNBP_Core Load唔到時, 自動重新Load過個APP
 		window.setInterval(function (){
 			try{
-				var hknbpCore = document.getElementById("HKNBP_Core").contentWindow.HKNBP_Core.org.sourcekey.hknbp.hknbp_core;
+				var hknbpCore = document.getElementById("HKNBP_Core").contentWindow.hknbpCore;
 				if(hknbpCore == null){document.getElementById("HKNBP_Core").src="https://hknbp.org";}
 			}catch(e){
 				//location.reload();
-				document.getElementById("HKNBP_Core").src = "HKNBP_Core/index.html";
+				document.getElementById("HKNBP_Core").src = "HKNBP_Core/index.html";//內置本地快取
 				//location.href="http://hknbp.org/";
 			}
 	    }, 10000);
